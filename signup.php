@@ -75,30 +75,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!empty($error_message)): ?>
             <p class="error-message"> <?php echo $error_message; ?> </p>
         <?php endif; ?>
-        <form action="" method="POST">
-            <div class="input-field">
-                <input type="text" id="firstname" name="firstname" placeholder=" " required />
-                <label for="firstname">First Name</label>
-            </div>
-            <div class="input-field">
-                <input type="text" id="lastname" name="lastname" placeholder=" " required />
-                <label for="lastname">Last Name</label>
-            </div>
-            <div class="input-field">
-                <input type="email" id="email" name="email" placeholder=" " required />
-                <label for="email">Email</label>
-            </div>
-            <div class="input-field">
-                <input type="password" id="password" name="password" placeholder=" " required />
-                <label for="password">Password</label>
-            </div>
-            <div class="input-field">
-                <input type="password" id="confirm_password" name="confirm_password" placeholder=" " required />
-                <label for="confirm_password">Confirm Password</label>
-            </div>
-            <button type="submit-btn">Sign Up</button>
-            <p class="bottom-link"><a href="login.php">Already have an account? Log in</a></p>
-        </form>
+        <form action="" method="POST" id="signup-form">
+    <div class="input-field">
+        <input type="text" id="firstname" name="firstname" placeholder=" " required />
+        <label for="firstname">First Name</label>
+    </div>
+    <div class="input-field">
+        <input type="text" id="lastname" name="lastname" placeholder=" " required />
+        <label for="lastname">Last Name</label>
+    </div>
+    <div class="input-field">
+        <input type="email" id="email" name="email" placeholder=" " required />
+        <label for="email">Email</label>
+    </div>
+    <div class="input-field">
+        <input type="password" id="password" name="password" placeholder=" " required />
+        <label for="password">Password</label>
+    </div>
+    <div class="input-field">
+        <input type="password" id="confirm_password" name="confirm_password" placeholder=" " required />
+        <label for="confirm_password">Confirm Password</label>
+    </div>
+    <button type="submit">Sign Up</button>
+    <p class="bottom-link"><a href="login.php">Already have an account? Log in</a></p>
+</form>
     </div>
 </div>
 
