@@ -6,7 +6,7 @@
         <title>CruiseMasters</title>
         <!-- Google Fonts Link For Icons -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/style.css">
         
     </head>
 
@@ -34,7 +34,7 @@
     }
 </style>
 
-<script src="script.js"></script>
+<script src="js/script.js"></script>
 
 </body>
 </html>

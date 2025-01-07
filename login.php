@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="css/style.css">
     <style>
         .error-message {
             color: red;
@@ -55,13 +55,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-<div class="form-popup">
-        <div class="form-box">
+<header>
+        <nav class="navbar">
+            <span class="hamburger-btn material-symbols-rounded">menu</span>
+            <a href="#" class="logo">
+                <img src="images/logo2.png" alt="logo">
+                <h2>CruiseMasters</h2>
+            </a>
+            <ul class="links">
+                <span class="close-btn material-symbols-rounded">close</span>
+                <li><a href="about.php">About Us</a></li>
+                <li><a href="contact.php">Contact Us</a></li>
+            </ul>
+            
+            <button class="signup-btn"><a href = "dashboard.php">Home</a></button>
+
+        </nav>
+    </header>
+<div class="form-box">
             <!-- Login Form -->
             <div class="form-content login">
                 <button class="close-btn">X</button>
                 <h2>Login</h2>
-                <form action="home.html" method="POST">
+                <form action="home.php" method="POST">
                     <div class="input-field">
                         <input type="text" id="username" name="username" required />
                         <label for="username">Username or Email</label>
@@ -74,11 +90,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p class="bottom-link"><a href="signup.php">Don't have an account? Sign up</a></p>
                 </form>
             </div>
-            <footer>
-        <p>&copy; 2024 CruiseMasters. All Rights Reserved.</p>
-    </footer>
+           
+           
+<footer>
+<p>&copy; 2024 CruiseMasters. All Rights Reserved.</p>
+</footer>
 
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
+
 </body>
 </html>
 

@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-require 'store/PHPMailer/vendor/autoload.php';
+require 'PHPMailer/vendor/autoload.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullnames = $_POST['fullnames'];
@@ -13,54 +13,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Generate a verification code
-        $verfication_code = rand(100000, 999999);
+        $verification_code = rand(100000, 999999);
 
         // Hash the password using the bcrypt algorithm
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
         // Prepare the SQL statement
-        $stmt = $conn->prepare("INSERT INTO users (full names, email, password, verfication_code) VALUES (:full names, :email, :password, :verfication_code)");
-        $stmt->bindParam(':full names', $fullnames);
+        $stmt = $conn->prepare("INSERT INTO users (fullnames, email, password, verification_code) VALUES (:fullnames, :email, :password, :verification_code)");
+        $stmt->bindParam(':fullnames', $fullnames);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $hashed_password);
-        $stmt->bindParam(':verfication_code', $verfication_code);
+        $stmt->bindParam(':verification_code', $verification_code);
 
         // Execute the statement
         $stmt->execute();
-        echo "Record inserted successfully!";
 
         // Send the verification email
         $mail = new PHPMailer(true);
         try {
-            //Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-            $mail->isSMTP();                                            //Send using SMTP
-            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $mail->Username   = 'brandonnthiwa@gmail.com';                     //SMTP username
-            $mail->Password   = 'qtzlorsqwjhkctun';                               //SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'brandonnthiwa@gmail.com';
+            $mail->Password   = 'qtzlorsqwjhkctun'; // Use app-specific password for Gmail
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = 465;
 
-            //Recipients
-            $mail->setFrom('Cruisemasters@gmail.com', 'IT Team');
-            $mail->addAddress($email, $fullnames . ' ' );     //Add a recipient
+            // Recipients
+            $mail->setFrom('cruisemasters@gmail.com', 'IT Team');
+            $mail->addAddress($email, $fullnames);
 
-            //Content
-            $mail->isHTML(true);                                  //Set email format to HTML
+            // Content
+            $mail->isHTML(true);
             $mail->Subject = 'Here is your Verification Code';
-            $mail->Body    = 'Your secret code is: <b>' . $verfication_code . '</b>';
+            $mail->Body    = 'Your secret code is: <b>' . $verification_code . '</b>';
 
             $mail->send();
-            echo 'Message has been sent';
+            echo 'Verification email has been sent.';
         } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            echo "Mailer Error: {$mail->ErrorInfo}";
         }
 
         // Redirect to login page
         header("Location: login.php");
         exit();
-
     } catch (PDOException $e) {
         error_log("Error: " . $e->getMessage());
         echo "Error: " . $e->getMessage();
@@ -74,49 +70,122 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="css/style.css">
     <style>
-        .error-message {
-            color: red;
+        body {
+            background: url('images/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body.blurred {
+            filter: blur(5px);
+        }
+
+        .form-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 300px;
+        }
+
+        .form-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .input-field label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            pointer-events: none;
             font-size: 12px;
-            margin-top: 5px;
-            display: block;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .input-field input:focus + label,
+        .input-field input:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 10px;
+            font-size: 10px;
+            color: #333;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .bottom-link {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .bottom-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .bottom-link a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <!-- Sign-Up Form -->
-    <div class="form-content signup">
-                <button class="close-btn">X</button>
-                <h2>Sign Up</h2>
-                <form action="home.php" method="POST">
-                    <div class="input-field">
-                        <input type="text" id="name" name="name" required />
-                        <label for="name">Full Name</label>
-                    </div>
-                    <div class="input-field">
-                        <input type="email" id="email" name="email" required />
-                        <label for="email">Email</label>
-                    </div>
-                    <div class="input-field">
-                        <input type="password" id="password" name="password" required />
-                        <label for="password">Password</label>
-                    </div>
-                    <div class="input-field">
-                        <input type="password" id="confirm-password" name="confirm-password" required />
-                        <label for="confirm-password">Confirm Password</label>
-                    </div>
-                    <button type="submit">Sign Up</button>
-                    <p class="bottom-link"><a href="login.php">Already have an account? Login</a></p>
-                </form>
-            </div>
+<div class="form-box">
+    <h2>Sign Up</h2>
+    <form action="" method="POST">
+        <div class="input-field">
+            <input type="text" id="fullnames" name="fullnames" placeholder=" " required>
+            <label for="fullnames">Full Names</label>
         </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2024 CruiseMasters. All Rights Reserved.</p>
-    </footer>
-
-    <script src="script.js"></script>
+        <div class="input-field">
+            <input type="email" id="email" name="email" placeholder=" " required>
+            <label for="email">Email</label>
+        </div>
+        <div class="input-field">
+            <input type="password" id="password" name="password" placeholder=" " required>
+            <label for="password">Password</label>
+        </div>
+        <button type="submit">Sign Up</button>
+        <p class="bottom-link"><a href="login.php">Already have an account? Login</a></p>
+    </form>
+</div>
+<script>
+    // Blurs the background when the form is displayed
+    document.body.classList.add('blurred');
+</script>
 </body>
 </html>
