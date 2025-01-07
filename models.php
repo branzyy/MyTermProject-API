@@ -20,9 +20,9 @@
             </a>
             <ul class="links">
                 <span class="close-btn material-symbols-rounded">close</span>
-                <li><a href="home.html">Home</a></li>
-                <li><a href="models.html">Models</a></li>
-                <li><a href="about.html">About us</a></li>
+                <li><a href="home.php">Home</a></li>
+                <li><a href="models.php">Models</a></li>
+                <li><a href="about.php">About us</a></li>
                 <li><a href="contact.php">Contact us</a></li>
             </ul>
             <button class="logout-btn">LOG OUT</button>

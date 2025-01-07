@@ -15,9 +15,9 @@
                 <h2>CruiseMasters</h2>
             </a>
             <ul class="links">
-                <li><a href="home.html">Home</a></li>
-                <li><a href="models.html">Models</a></li>
-                <li><a href="about.html">About Us</a></li>
+                <li><a href="home.php">Home</a></li>
+                <li><a href="models.php">Models</a></li>
+                <li><a href="about.php">About Us</a></li>
                 <li><a href="contact.php">Contact Us</a></li>
             </ul>
             <button class="logout-btn">Log Out</button>

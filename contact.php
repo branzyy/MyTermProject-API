@@ -16,9 +16,9 @@
             </a>
             <ul class="links">
                 <span class="close-btn material-symbols-rounded">close</span>
-                <li><a href="home.html">Home</a></li>
-                <li><a href="models.html">Models</a></li>
-                <li><a href="about.html">About us</a></li>
+                <li><a href="home.php">Home</a></li>
+                <li><a href="models.php">Models</a></li>
+                <li><a href="about.php">About us</a></li>
                 <li><a href="contact.php">Contact us</a></li>
             </ul>
             <button class="logout-btn">LOG OUT</button>
@@ -46,8 +46,8 @@
             <div class="contact-info">
                 <h2>Our Contact Information</h2>
                 <p>Email: <a href="mailto:support@cruisemasters.com">support@cruisemasters.com</a></p>
-                <p>Phone: +123 456 7890</p>
-                <p>Address: 123 CruiseMasters St, Nairobi, Kenya</p>
+                <p>Phone: +254 654 7890</p>
+                <p>Address: Nairobi, Kenya</p>
             </div>
         </section>
     </main>
