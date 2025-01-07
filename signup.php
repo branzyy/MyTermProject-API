@@ -3,36 +3,45 @@ session_start(); // Start a session to handle user data
 include 'connection/index.php'; // Database connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
     $error_message = '';
 
-    try {
-        // Prepare the SQL statement to fetch user data by email
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
+    if ($password !== $confirm_password) {
+        $error_message = "Passwords do not match.";
+    } else {
+        try {
+            // Check if the email already exists in the database
+            $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
 
-        // Check if a user with the provided email exists
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
-            // Verify the entered password with the hashed password in the database
-            if (password_verify($password, $user['password'])) {
-                // Redirect to the verification code page
-                header('Location: verf_code.php');
-                exit();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user) {
+                $error_message = "An account with that email already exists.";
             } else {
-                // Password is incorrect
-                $error_message = "Invalid password. Please try again.";
+                // Hash the password before storing it
+                $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+                // Insert new user into the database
+                $stmt = $conn->prepare("INSERT INTO users (firstname, lastname, email, password) VALUES (:firstname, :lastname, :email, :password)");
+                $stmt->bindParam(':firstname', $firstname);
+                $stmt->bindParam(':lastname', $lastname);
+                $stmt->bindParam(':email', $email);
+                $stmt->bindParam(':password', $hashed_password);
+                $stmt->execute();
+
+                // Redirect to login page after successful registration
+                header('Location: login.php');
+                exit();
             }
-        } else {
-            // No user found with the provided email
-            $error_message = "No account found with that email.";
+        } catch (PDOException $e) {
+            error_log("Error: " . $e->getMessage());
+            $error_message = "An error occurred. Please try again later.";
         }
-    } catch (PDOException $e) {
-        error_log("Error: " . $e->getMessage());
-        $error_message = "An error occurred. Please try again later.";
     }
 }
 ?>
@@ -42,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -61,12 +70,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </header>
 
 <div class="form-box">
-    <div class="form-content login">
-        <h2>Login</h2>
+    <div class="form-content signup">
+        <h2>Sign Up</h2>
         <?php if (!empty($error_message)): ?>
             <p class="error-message"> <?php echo $error_message; ?> </p>
         <?php endif; ?>
         <form action="" method="POST">
+            <div class="input-field">
+                <input type="text" id="firstname" name="firstname" placeholder=" " required />
+                <label for="firstname">First Name</label>
+            </div>
+            <div class="input-field">
+                <input type="text" id="lastname" name="lastname" placeholder=" " required />
+                <label for="lastname">Last Name</label>
+            </div>
             <div class="input-field">
                 <input type="email" id="email" name="email" placeholder=" " required />
                 <label for="email">Email</label>
@@ -75,8 +92,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="password" id="password" name="password" placeholder=" " required />
                 <label for="password">Password</label>
             </div>
-            <button type="submit">Login</button>
-            <p class="bottom-link"><a href="signup.php">Don't have an account? Sign up</a></p>
+            <div class="input-field">
+                <input type="password" id="confirm_password" name="confirm_password" placeholder=" " required />
+                <label for="confirm_password">Confirm Password</label>
+            </div>
+            <button type="submit-btn">Sign Up</button>
+            <p class="bottom-link"><a href="login.php">Already have an account? Log in</a></p>
         </form>
     </div>
 </div>
