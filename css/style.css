@@ -12,13 +12,13 @@ body {
     height: 100vh;
     width: 100%;
     background: url("../images/background one.jpg") center/cover no-repeat;
-    background-attachment: fixed; 
+    background-attachment: fixed;
     margin-top: 170px;
     color: white; /* Make text white */
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column; 
+    flex-direction: column;
 }
 
 header {
@@ -111,7 +111,6 @@ header {
     background: linear-gradient(to right, #0077cc, #19e8ff);
     transform: scale(1.05);
 }
-
 
 .navbar .login-btn {
     border: none;
@@ -250,7 +249,6 @@ header {
     margin: 5px 0;
 }
 
-
 .blur-bg-overlay {
     position: fixed;
     top: 0;
@@ -287,14 +285,12 @@ header {
 
 .login .form-details {
     padding: 0 20px;
-    /*background: url("images/login-img.jpg");*/
     background-position: center;
     background-size: cover;
 }
 
 .signup .form-details {
     padding: 0 20px;
-    /*background: url("images/signup-img.jpg");*/
     background-position: center;
     background-size: cover;
 }
@@ -360,118 +356,73 @@ form .input-field {
     text-decoration: underline;
 }
 
-form :where(.forgot-pass-link, .policy-text) {
-    display: inline-flex;
-    margin-top: 13px;
-    font-size: 0.95rem;
-}
-
-form button {
-    width: 100%;
-    color: #fff;
+form .submit-btn {
+    background-color: #00bcd4;
     border: none;
-    outline: none;
-    padding: 14px 0;
-    font-size: 1rem;
-    font-weight: 500;
+    padding: 12px 15px;
+    width: 100%;
+    color: white;
+    font-size: 1.1rem;
     border-radius: 3px;
+    margin-top: 20px;
     cursor: pointer;
-    margin: 25px 0;
-    background: #00bcd4;
-    transition: 0.2s ease;
+    transition: background-color 0.3s;
 }
 
-form button:hover {
-    background: #0097a7;
+form .submit-btn:hover {
+    background-color: #0077cc;
 }
 
-.form-content .bottom-link {
+footer {
+    margin-top: 70px;
+    padding: 20px 0;
     text-align: center;
+    background-color: #333;
+    color: white;
 }
 
-.form-popup .signup,
-.form-popup.show-signup .login {
-    display: none;
+footer p {
+    font-size: 0.9rem;
+    margin: 10px 0;
 }
 
-.form-popup.show-signup .signup {
-    display: flex;
+footer a {
+    color: #19e8ff;
+    text-decoration: none;
 }
 
-.signup .policy-text {
-    display: flex;
-    margin-top: 14px;
-    align-items: center;
+footer a:hover {
+    text-decoration: underline;
 }
 
-.signup .policy-text input {
-    width: 14px;
-    height: 14px;
-    margin-right: 7px;
-}
-
-@media (max-width: 950px) {
-    .navbar :is(.hamburger-btn, .close-btn) {
-        display: block;
-    }
-
-    .navbar {
-        padding: 15px 0;
-    }
-
-    .navbar .logo img {
-        display: none;
-    }
-
-    .navbar .logo h2 {
-        font-size: 1.4rem;
-    }
-
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
     .navbar .links {
-        position: fixed;
-        top: 0;
-        z-index: 10;
-        left: -100%;
-        display: block;
-        height: 100vh;
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.9);
+        flex-direction: column;
         width: 100%;
-        padding-top: 60px;
-        text-align: center;
-        background: #fff;
-        transition: 0.2s ease;
+        gap: 20px;
+        padding: 10px;
     }
 
-    .navbar .links.show-menu {
-        left: 0;
+    .navbar .hamburger-btn {
+        display: block;
+    }
+
+    .navbar .links.show {
+        display: flex;
     }
 
     .navbar .links a {
-        display: inline-flex;
-        margin: 20px 0;
         font-size: 1.2rem;
-        color: #000;
     }
 
-    .navbar .links a:hover {
-        color: #00BCD4;
-    }
-
-    .navbar .login-btn {
-        font-size: 0.9rem;
-        padding: 7px 10px;
-    }
-}
-
-@media (max-width: 760px) {
-    .form-popup {
-        width: 95%;
-    }
-
-    .form-box .form-details {
-        display: none;
-    }
-
-    .form-box .form-content {
-        padding: 30px 20px;
+    .contact-section {
+        margin: 20px;
+        padding: 15px;
     }
 }
