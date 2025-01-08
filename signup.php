@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-    $error_message = '';
+   // $error_message = '';
 
     if ($password !== $confirm_password) {
         $error_message = "Passwords do not match.";
@@ -27,20 +27,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
                 // Insert new user into the database
-                $stmt = $conn->prepare("INSERT INTO users (firstname, lastname, email, password) VALUES (:firstname, :lastname, :email, :password)");
-                $stmt->bindParam(':firstname', $firstname);
+                $stmt = "INSERT INTO users (firstname, lastname, email, password) VALUES ('$firstname', '$lastname', '$email', '$hashed_password')";
+                $conn->exec($stmt);
+            
+               /* $stmt->bindParam(':firstname', $firstname);
                 $stmt->bindParam(':lastname', $lastname);
                 $stmt->bindParam(':email', $email);
-                $stmt->bindParam(':password', $hashed_password);
-                $stmt->execute();
+                $stmt->bindParam(':password', $hashed_password);*/
+                //$stmt->execute();
 
                 // Redirect to login page after successful registration
                 header('Location: login.php');
                 exit();
             }
         } catch (PDOException $e) {
-            error_log("Error: " . $e->getMessage());
-            $error_message = "An error occurred. Please try again later.";
+        echo $stmt. $e->getMessage();
+            //$error_message = "An error occurred. Please try again later.";
         }
     }
 }
@@ -75,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!empty($error_message)): ?>
             <p class="error-message"> <?php echo $error_message; ?> </p>
         <?php endif; ?>
-        <form action="" method="POST" id="signup-form">
+        <form method="POST" id="signup-form">
     <div class="input-field">
         <input type="text" id="firstname" name="firstname" placeholder=" " required />
         <label for="firstname">First Name</label>

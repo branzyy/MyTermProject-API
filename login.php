@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Verify the entered password with the hashed password in the database
             if (password_verify($password, $user['password'])) {
                 // Redirect to the verification code page
-                header('Location: verf_code.php');
+                header('Location: verify_code.php');
                 exit();
             } else {
                 // Password is incorrect
