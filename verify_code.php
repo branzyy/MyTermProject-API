@@ -1,20 +1,29 @@
 <?php
+include 'connection/index.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $error_message = '';
+    $code = $_POST['verification_code'];
+    
 
     try {
         // Prepare the SQL statement to fetch user data by email
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->bindParam(':email', $email);
+        $stmt = $conn->prepare("SELECT verification_code FROM users WHERE verification_code = :code");
+        $stmt->bindParam(':code', $code);
         $stmt->execute();
 
         // Check if a user with the provided email exists
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $correct_code=$user['verification_code'];
+        $ver_code=str_replace(',','', $correct_code);
+   if($ver_code){
+   header("location:home.php");
+   }
+   else{
+    echo "Invalid code";
+   }
         
-    }catch(){
-        
+    }catch (PDOException $e) {
+        echo $stmt. $e->getMessage();
+        //$error_message = "An error occurred. Please try again later.";
     }
 }
 
