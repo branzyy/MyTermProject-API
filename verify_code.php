@@ -6,23 +6,23 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
-require 'PHPmvendor/autoload.php';
-
-include "random.php";
+require 'PHPMailer/vendor/autoload.php';
+//include 'processes/auth.php';
 
 //Create an instance; passing true enables exceptions
 $mail = new PHPMailer(true);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usermail=$_POST['email'];
     $username=$_POST['user-name'];
+    
     try {
         //Server settings
         $mail->SMTPDebug = 0;                      //Enable verbose debug output
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = 'bernard.lukwago@strathmore.edu';                     //SMTP username
-        $mail->Password   = 'wgeozrsigiwwpzcd';                               //SMTP password
+        $mail->Username   = 'brandonnthiwa@gmail.com';                     //SMTP username
+        $mail->Password   = 'utggmrzihminerwi';                               //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS
     
@@ -42,12 +42,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'PASSWORD RESET';
         $mail->Body    = 'We have received a request to change the password. Kindly input the verification code below
-        or tap on the link below to reset your password <br> <br>'.generateCode();
+        or tap on the link below to reset your password <br> <br>'.
         //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
     
         $mail->send();
         echo 'Message has been sent';
-        header("location:verify.html");
+        header("location:verify_code.php");
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }

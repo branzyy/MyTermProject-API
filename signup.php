@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Insert new user into the database
                 $stmt = "INSERT INTO users (firstname, lastname, email, password) VALUES ('$firstname', '$lastname', '$email', '$hashed_password')";
+                $_SESSION['first']=$firstname;
                 $conn->exec($stmt);
             
                /* $stmt->bindParam(':firstname', $firstname);
@@ -37,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //$stmt->execute();
 
                 // Redirect to login page after successful registration
-                header('Location: login.php');
+                header('Location: login.html');
                 exit();
             }
         } catch (PDOException $e) {
@@ -99,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="confirm_password">Confirm Password</label>
     </div>
     <button type="submit">Sign Up</button>
-    <p class="bottom-link"><a href="login.php">Already have an account? Log in</a></p>
+    <p class="bottom-link"><a href="loginform.php">Already have an account? Log in</a></p>
 </form>
     </div>
 </div>
