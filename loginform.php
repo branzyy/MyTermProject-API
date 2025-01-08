@@ -19,11 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Prepare the SQL statement to fetch user data by email
         $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->bindParam(':email', $email);
-        
+        $stmt->execute();
 
         // Check if a user with the provided email exists
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        //$email_user=$user['email'];
+        
 
         if ($user) {
             // Verify the entered password with the hashed password in the database
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $verif_code= rand(100000,999999);
                 $sql = $conn->prepare("UPDATE users SET verification_code=$verif_code  WHERE email ='$email' ");
         //$stmt->bindParam(':email', $email);
-        $stmt->execute();
+        $sql->execute();
                 $mail = new PHPMailer(true);
                 try {
                     //Server settings
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mail->isSMTP();                                            //Send using SMTP
                     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
                     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                    $mail->Username   = 'brandymkambez@gmail.com';                   //SMTP username
+                    $mail->Username   = 'brandonnthiwa@gmail.com';                  //SMTP username
                     $mail->Password   = 'utggmrzihminerwi';                               //SMTP password
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
                     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS
