@@ -1,52 +1,24 @@
 <?php
-//Import PHPMailer classes into the global namespace
-//These must be at the top of your script, not inside a function
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $error_message = '';
 
-//Load Composer's autoloader
-require 'PHPMailer/vendor/autoload.php';
-//include 'processes/auth.php';
-
-//Create an instance; passing true enables exceptions
-$mail = new PHPMailer(true);
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $usermail=$_POST['email'];
-    $username=$_POST['user-name'];
-    
     try {
-        //Server settings
-        $mail->SMTPDebug = 0;                      //Enable verbose debug output
-        $mail->isSMTP();                                            //Send using SMTP
-        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = 'brandonnthiwa@gmail.com';                     //SMTP username
-        $mail->Password   = 'utggmrzihminerwi';                               //SMTP password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-        $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS
-    
-        //Recipients
-        $mail->setFrom('exempt@gmail.com', 'PASSWORD RESET');
-        $mail->addAddress($usermail, $username); 
+        // Prepare the SQL statement to fetch user data by email
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        // Check if a user with the provided email exists
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        //Content
-        $mail->isHTML(true);                                  //Set email format to HTML
-        $mail->Subject = 'PASSWORD RESET';
-        $mail->Body    = 'We have received a request to change the password. Kindly input the verification code below
-        or tap on the link below to reset your password <br> <br>'.
-        //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-    
-        $mail->send();
-        echo 'Message has been sent';
-        header("location:verify_code.php");
-    } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }catch(){
+        
     }
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
