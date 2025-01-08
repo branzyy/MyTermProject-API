@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <footer>
-    <p>&copy;All Rights Reserved.</p>
+    <p>&copy; 2024 CruiseMasters. All Rights Reserved.</p>
 </footer>
 
 </body>
