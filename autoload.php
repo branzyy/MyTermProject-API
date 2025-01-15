@@ -1,6 +1,6 @@
 <?php
 
-//Method Auto Load
+//Method Auto Load//gittt
 
 function classAutoLoad($classname){
     // classname in the function is a member when in it is called it becomes an argument
