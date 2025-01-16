@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Forgot Password</h1>
-    <form action="send_verification_code.php" method="POST">
+    <form action="sendverifcode.php" method="POST">
         <label for="email">Enter your email address:</label><br>
         <input type="email" name="email" required><br><br>
         <button type="submit">Send Verification Code</button>

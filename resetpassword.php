@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Reset Password</h1>
-    <form action="reset_password_process.php" method="POST">
+    <form action="resetpasswordprocess.php" method="POST">
         <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>" />
         <label for="password">Enter new password:</label><br>
         <input type="password" name="password" required><br><br>
