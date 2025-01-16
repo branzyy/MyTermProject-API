@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $mail->send();
             echo "Verification code has been sent to your email.";
-            header("Location: verify_code.php?email=$email");
+            header("Location: verifyresetcode.php?email=$email");
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
