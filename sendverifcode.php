@@ -24,16 +24,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Send email with verification code
         $mail = new PHPMailer(true);
         try {
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'your-email@gmail.com';
-            $mail->Password = 'your-email-password';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-            $mail->Port = 465;
-
-            $mail->setFrom('no-reply@example.com', 'Password Reset');
-            $mail->addAddress($email);
+           //Server settings
+           $mail->SMTPDebug = 0;                      //Enable verbose debug output
+           $mail->isSMTP();                                            //Send using SMTP
+           $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+           $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+           $mail->Username   = 'brandonnthiwa@gmail.com';                  //SMTP username
+           $mail->Password   = 'utggmrzihminerwi';                               //SMTP password
+           $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+           $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS
+       
+           //Recipients
+           $mail->setFrom('exempt@gmail.com', 'PASSWORD RESET');
+           $mail->addAddress($email, $firstname); 
+             //Recipients
+                $mail->setFrom('exempt@gmail.com', 'PASSWORD RESET');
+                $mail->addAddress($email, $firstname); 
 
             $mail->isHTML(true);
             $mail->Subject = 'Your Password Reset Code';
