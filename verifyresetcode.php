@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<header>
+        <nav class="navbar">
+            <span class="hamburger-btn material-symbols-rounded">menu</span>
+            <a href="home.html" class="logo">
+                <img src="images/logo2.png" alt="logo">
+                <h2>CruiseMasters</h2>
+            </a>
+            
+        </nav>
+    </header>
     <h1>Verify Code</h1>
     <form action="verifyresetcodeprocess.php" method="POST">
         <label for="verification_code">Enter your verification code:</label><br>

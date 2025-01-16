@@ -20,7 +20,9 @@
                 <li><a href="about.php">About Us</a></li>
                 <li><a href="contact.php">Contact Us</a></li>
             </ul>
+        <form action="logout.php" method="POST" style="display: inline;">
             <button class="logout-btn">Log Out</button>
+        </form>
         </nav>
     </header>
 
