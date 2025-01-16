@@ -1,5 +1,5 @@
 <?php
-require 'index.php'; // Database connection
+require 'connection/index.php'; // Database connection
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
