@@ -1,5 +1,5 @@
 <?php
-require 'conn.php';
+require 'connection/index.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
