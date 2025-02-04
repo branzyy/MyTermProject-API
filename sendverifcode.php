@@ -5,7 +5,10 @@ use PHPMailer\PHPMailer\Exception;
 
 require 'PHPMailer/vendor/autoload.php';
 
-
+function generateVerificationCode($length = 6) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    return substr(str_shuffle($characters), 0, $length);
+}
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
