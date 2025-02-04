@@ -5,15 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 
 require 'PHPMailer/vendor/autoload.php';
 
-// Function to generate a 6-character alphanumeric verification code
-function generateVerificationCode($length = 6) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $code = '';
-    for ($i = 0; $i < $length; $i++) {
-        $code .= $characters[rand(0, strlen($characters) - 1)];
-    }
-    return $code;
-}
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
