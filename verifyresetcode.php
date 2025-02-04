@@ -29,7 +29,7 @@ $email = $_GET['email'];
     <h1>Verify Code</h1>
     <form action="verifyresetcodeprocess.php" method="POST">
         <label for="verification_code">Enter your verification code:</label><br>
-        <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>" />
+        <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>" />
         <input type="text" name="verification_code" required><br><br>
         <button type="submit">Verify Code</button>
     </form>
