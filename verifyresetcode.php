@@ -1,3 +1,12 @@
+<?php
+
+if (!isset($_GET['email']) || empty($_GET['email'])) {
+    header("Location: forgotpassword.php");
+    exit();
+}
+$email = $_GET['email'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,3 +35,5 @@
     </form>
 </body>
 </html>
+
+
