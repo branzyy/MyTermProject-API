@@ -32,7 +32,7 @@
             <h1>Contact Us</h1>
             <p>We'd love to hear from you! Please fill out the form below and we'll get back to you as soon as possible.</p>
 
-            <form action="send-message.php" method="POST" class="contact-form">
+            <form action="sendmessage.php" method="POST" class="contact-form">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
 
