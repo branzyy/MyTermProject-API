@@ -16,7 +16,7 @@ function generateVerificationCode($length = 6) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
-    $verification_code = rand(100000, 999999); // Generate 6-digit code
+    $verification_code = generateVerificationCode();
 
     // Check if email exists in the database
     $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
