@@ -6,8 +6,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Prepare the SQL statement to fetch user data by email
-        $stmt = $conn->prepare("SELECT verification_code FROM users WHERE verification_code = :code");
-        $stmt->bindParam(':code', $code);
+        $stmt = $conn->prepare("SELECT verification_code FROM users WHERE email = :email AND verification_code = :code");
+        $stmt->bindParam(':email', $_POST['email']);
         $stmt->execute();
 
         // Check if a user with the provided email exists

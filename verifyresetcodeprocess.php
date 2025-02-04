@@ -1,3 +1,4 @@
+<?php
 require 'connection/index.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -26,3 +27,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Invalid verification code.";
     }
 }
+?>
