@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
     <form action="verify_code.php" method="POST">
         <div class="input-field">
-            <input type="number" id="email" name="verification_code" placeholder="Enter the code " required />
+            <input type="text" id="email" name="verification_code" placeholder="Enter the code " required />
             <label for="email">Verification Code</label>
         </div>
         
