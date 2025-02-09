@@ -6,8 +6,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Prepare the SQL statement to fetch user data by email
-        $stmt = $conn->prepare("SELECT verification_code FROM users WHERE email = :email AND verification_code = :code");
-        $stmt->bindParam(':email', $_POST['email']);
+        $stmt = $conn->prepare("SELECT verification_code FROM users WHERE verification_code = :code");
+        $stmt->bindParam(':code', $code);
         $stmt->execute();
 
         // Check if a user with the provided email exists
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
     <form action="verify_code.php" method="POST">
         <div class="input-field">
-            <input type="text" id="email" name="verification_code" placeholder="Enter the code " required />
+            <input type="number" id="email" name="verification_code" placeholder="Enter the code " required />
             <label for="email">Verification Code</label>
         </div>
         
