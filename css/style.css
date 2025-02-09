@@ -427,3 +427,9 @@ footer a:hover {
         padding: 15px;
     }
 }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    overflow: visible; /* Ensure content isn't hidden */
+}
