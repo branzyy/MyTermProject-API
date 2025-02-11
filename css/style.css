@@ -433,3 +433,14 @@ footer a:hover {
     padding: 20px;
     overflow: visible; /* Ensure content isn't hidden */
 }
+.purchase-btn {
+    background-color: #28a745; /* Green for purchase */
+}
+
+.book-btn {
+    background-color: #007bff; /* Blue for booking */
+}
+
+.cancel-btn {
+    background-color: #dc3545; /* Red for cancel */
+}
