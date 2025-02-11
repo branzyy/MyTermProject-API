@@ -2,13 +2,10 @@
 session_start(); // Start a session to handle user data
 include 'connection/index.php'; // Database connection
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-//$_SESSION['first']=$firstname;
 
-//Load Composer's autoloader
+// Load Composer's autoloader
 require 'PHPMailer/vendor/autoload.php';
-//include 'processes/auth.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
@@ -23,55 +20,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if a user with the provided email exists
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
 
         if ($user) {
             // Verify the entered password with the hashed password in the database
             if (password_verify($password, $user['password'])) {
-                $verif_code= rand(100000,999999);
-                $sql = $conn->prepare("UPDATE users SET verification_code=$verif_code  WHERE email ='$email' ");
-        //$stmt->bindParam(':email', $email);
-        $sql->execute();
+                // Store user session after successful login
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['email'] = $user['email'];
+
+                // Generate and store the verification code
+                $verif_code = rand(100000, 999999);
+                $sql = $conn->prepare("UPDATE users SET verification_code = :verif_code WHERE email = :email");
+                $sql->bindParam(':verif_code', $verif_code);
+                $sql->bindParam(':email', $email);
+                $sql->execute();
+
+                // Send verification email
                 $mail = new PHPMailer(true);
                 try {
-                    //Server settings
-                    $mail->SMTPDebug = 0;                      //Enable verbose debug output
-                    $mail->isSMTP();                                            //Send using SMTP
-                    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-                    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                    $mail->Username   = 'brandonnthiwa@gmail.com';                  //SMTP username
-                    $mail->Password   = 'utggmrzihminerwi';                               //SMTP password
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-                    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS
-                
-                    //Recipients
+                    // Server settings
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'brandonnthiwa@gmail.com';
+                    $mail->Password = 'utggmrzihminerwi';
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+                    $mail->Port = 465;
+
+                    // Recipients
                     $mail->setFrom('exempt@gmail.com', 'PASSWORD RESET');
-                    $mail->addAddress($email, $firstname); 
-                    // $mail->addAddress('ellen@example.com');               //Name is optional
-                    // $mail->addReplyTo('info@example.com', 'Information');
-                    // $mail->addCC('cc@example.com');
-                    // $mail->addBCC('bcc@example.com');
-                
-                    //Attachments
-                    // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-                    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-                
-                    //Content
-                    $mail->isHTML(true);                                  //Set email format to HTML
+                    $mail->addAddress($email);  // Removed $firstname to avoid undefined variable
+
+                    // Content
+                    $mail->isHTML(true);
                     $mail->Subject = 'ACCOUNT VERIFICATION';
-                    $mail->Body    = 'We have received a request to verify your account. Kindly input the verification code below
-                    <br> <br>'.$verif_code;
-                    //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-                
+                    $mail->Body = 'We have received a request to verify your account. Kindly input the verification code below:<br><br>' . $verif_code;
+
                     $mail->send();
-                    echo 'Message has been sent';
-                    header("location:verify_code.php");
+                    // Redirect to verification page
+                    header("Location: verify_code.php");
+                    exit();
                 } catch (Exception $e) {
                     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                 }
-                // Redirect to the verification code page
-            
-                exit();
             } else {
                 // Password is incorrect
                 $error_message = "Invalid password. Please try again.";
@@ -82,7 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } catch (PDOException $e) {
         error_log("Error: " . $e->getMessage());
-        //$error_message = "An error occurred. Please try again later.";
     }
 }
 ?>
@@ -113,10 +103,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="form-box">
     <div class="form-content login">
         <h2>Login</h2>
-       <?php if (!empty($error_message)): ?>
-            <p class="error-message"> <?php echo $error_message; ?> </p>
+        <?php if (!empty($error_message)): ?>
+            <p class="error-message"><?php echo $error_message; ?></p>
         <?php endif; ?>
-    <form  method="POST">
+        <form method="POST">
             <div class="input-field">
                 <input type="email" id="email" name="email" placeholder=" " required />
                 <label for="email">Email</label>
@@ -126,9 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="password">Password</label>
             </div>
             <button type="submit">Login</button>
-            <p>
-        <a href="forgotpassword.php">Forgot Password?</a>
-    </p>
+            <p><a href="forgotpassword.php">Forgot Password?</a></p>
             <p class="bottom-link"><a href="signup.php">Don't have an account? Sign up</a></p>
         </form>
     </div>
