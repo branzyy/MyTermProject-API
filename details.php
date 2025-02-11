@@ -56,7 +56,7 @@ if (isset($_GET['car_id'])) {
             <p><strong>Year of Make:</strong> <?php echo htmlspecialchars($car['year_of_make']); ?></p>
             <p><strong>Mileage:</strong> <?php echo htmlspecialchars($car['mileage']); ?></p>
             <p><strong>Price:</strong> <?php echo htmlspecialchars($car['price']); ?></p>
-            <p><strong>Description:</strong> <?php echo htmlspecialchars($car['description']); ?></p>
+           
         </div>
     </div>
 
