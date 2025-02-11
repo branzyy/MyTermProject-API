@@ -109,7 +109,7 @@ try {
         if ($cars && count($cars) > 0) {
             foreach ($cars as $car) {
                 echo '<div class="car">';
-                echo '<a href="details.php?car=' . urlencode($car["name"]) . '">';
+                echo '<a href="details.php?car_id=' . urlencode($car["id"]) . '">';
                 echo '<img src="images/' . htmlspecialchars($car["image"]) . '" alt="' . htmlspecialchars($car["name"]) . '">';
                 echo '<div class="desc">';
                 echo '<h3>' . htmlspecialchars($car["name"]) . '</h3>';
