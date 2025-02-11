@@ -98,7 +98,7 @@ try {
             <li><a href="about.php">About Us</a></li>
             <li><a href="contact.php">Contact Us</a></li>
         </ul>
-        <button class="signup-btn"><a href="dashboard.php">Home</a></button>
+        <button class="signup-btn"><a href="home.php">Home</a></button>
     </nav>
 </header>
 
