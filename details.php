@@ -63,7 +63,7 @@ if (isset($_GET['car_id'])) {
     <!-- Purchase and Book Buttons -->
     <div class="action-buttons">
         <a href="purchase.php?car_id=<?php echo urlencode($car['carId']); ?>" class="btn purchase-btn">Purchase</a>
-        <a href="book.php?car_id=<?php echo urlencode($car['carId']); ?>" class="btn book-btn">Book</a>
+        <a href="bookings.php?car_id=<?php echo urlencode($car['carId']); ?>" class="btn book-btn">Book</a>
     </div>
 </div>
 
