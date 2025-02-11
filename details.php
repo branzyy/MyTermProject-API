@@ -2,14 +2,14 @@
 session_start();
 include 'connection/index.php'; // Database connection
 
-// Check if 'id' parameter is set in the URL
-if (isset($_GET['id'])) {
-    $carId = $_GET['id'];
+// Check if 'car_id' parameter is set in the URL
+if (isset($_GET['car_id'])) {
+    $carId = $_GET['car_id'];
 
     try {
-        // Fetch car details based on the ID
-        $stmt = $conn->prepare("SELECT * FROM cars WHERE id = :id");
-        $stmt->bindParam(':id', $carId, PDO::PARAM_INT);
+        // Fetch car details based on carId
+        $stmt = $conn->prepare("SELECT * FROM cars WHERE carId = :carId");
+        $stmt->bindParam(':carId', $carId, PDO::PARAM_INT);
         $stmt->execute();
         $car = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -24,7 +24,6 @@ if (isset($_GET['id'])) {
     die("No car specified.");
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
