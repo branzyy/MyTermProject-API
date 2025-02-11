@@ -5,7 +5,7 @@ include 'connection/index.php';
 
 // Fetch cars from the database using PDO
 try {
-    $stmt = $conn->prepare("SELECT * FROM cars ORDER BY id ASC");
+    $stmt = $conn->prepare("SELECT * FROM cars ORDER BY carId ASC");
     $stmt->execute();
     $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -109,7 +109,7 @@ try {
         if ($cars && count($cars) > 0) {
             foreach ($cars as $car) {
                 echo '<div class="car">';
-                echo '<a href="details.php?car_id=' . urlencode($car["id"]) . '">';
+                echo '<a href="details.php?car_id=' . urlencode($car["carId"]) . '">';
                 echo '<img src="images/' . htmlspecialchars($car["image"]) . '" alt="' . htmlspecialchars($car["name"]) . '">';
                 echo '<div class="desc">';
                 echo '<h3>' . htmlspecialchars($car["name"]) . '</h3>';
