@@ -1,6 +1,11 @@
 <?php
 session_start();
 include 'connection/index.php'; // Database connection
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Load Composer's autoloader
+require 'PHPMailer/vendor/autoload.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -60,10 +65,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ];
 
         // Send confirmation email
-        $subject = "Purchase Confirmation - CruiseMasters";
-        $message = "Dear Customer,\n\nYou have successfully purchased the $vehiclename on $purchasedate.\n\nThank you for choosing CruiseMasters!\n\nBest regards,\nCruiseMasters Team";
-        $headers = "From: no-reply@cruisemasters.com";
-        mail($userEmail, $subject, $message, $headers);
+        $mail = new PHPMailer(true);
+                try {
+                    // Server settings
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'brandonnthiwa@gmail.com';
+                    $mail->Password = 'utggmrzihminerwi';
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+                    $mail->Port = 465;
+
+                    // Recipients
+                    $mail->setFrom('exempt@gmail.com', 'PASSWORD RESET');
+                    $mail->addAddress($email);  // Removed $firstname to avoid undefined variable
+
+                    // Content
+                    $mail->isHTML(true);
+                    $mail->Subject = 'PURCHASE CONFIRMATION';
+                    //$mail->Body = 'We have received a request to verify your account. Kindly input the verification code below:<br><br>' . $verif_code;
+
+                    $mail->send();
+                   
 
         // Redirect to confirmation page
         header("Location: purchaseconfirmation.php");
