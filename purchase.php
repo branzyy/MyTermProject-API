@@ -64,35 +64,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'purchasedate' => $purchasedate
         ];
 
-        // Send confirmation email
-        $mail = new PHPMailer(true);
-                try {
-                    // Server settings
-                    $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com';
-                    $mail->SMTPAuth = true;
-                    $mail->Username = 'brandonnthiwa@gmail.com';
-                    $mail->Password = 'utggmrzihminerwi';
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-                    $mail->Port = 465;
+    
+       // Send confirmation email
+$mail = new PHPMailer(true);
+try {
+    // Server settings
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'brandonnthiwa@gmail.com';
+    $mail->Password = 'utggmrzihminerwi';
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail->Port = 465;
 
-                    // Recipients
-                    $mail->setFrom('exempt@gmail.com', 'PASSWORD RESET');
-                    $mail->addAddress($email);  // Removed $firstname to avoid undefined variable
+    // Recipients
+    $mail->setFrom('exempt@gmail.com', 'CruiseMasters Dealership');
+    $mail->addAddress($userEmail);  // Corrected variable
 
-                    // Content
-                    $mail->isHTML(true);
-                    $mail->Subject = 'PURCHASE CONFIRMATION';
-                    $mail->Body = 'Thank you for purchasing <strong>' . htmlspecialchars($vehiclename) . '</strong> on ' . $purchasedate . '. We will contact you with further details shortly.';
+    // Content
+    $mail->isHTML(true);
+    $mail->Subject = 'Purchase Confirmation';
+    $mail->Body = 'Thank you for purchasing <strong>' . htmlspecialchars($vehiclename) . '</strong> on ' . $purchasedate . '. We will contact you with further details shortly.';
 
-                    $mail->send();
-                } catch (Exception $e) {
-                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-                }
+    $mail->send();
 
-        // Redirect to confirmation page
-        header("Location: purchaseconfirmation.php");
-        exit;
+    // Redirect to confirmation page
+    header("Location: purchaseconfirmation.php");
+    exit;
+
+} catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+
 
     } catch (PDOException $e) {
         die("Error processing purchase: " . $e->getMessage());

@@ -1,6 +1,11 @@
 <?php
 session_start();
 include 'connection/index.php'; // Database connection
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Load Composer's autoloader
+require 'PHPMailer/vendor/autoload.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -63,14 +68,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ];
 
         // Send confirmation email
-        $subject = "Booking Confirmation - CruiseMasters";
-        $message = "Dear Customer,\n\nYou have successfully booked the $vehiclename from $pickupdate to $returndate.\n\nThank you for choosing CruiseMasters!\n\nBest regards,\nCruiseMasters Team";
-        $headers = "From: no-reply@cruisemasters.com";
-        mail($userEmail, $subject, $message, $headers);
+        $mail = new PHPMailer(true);
+    try {
+    // Server settings
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'brandonnthiwa@gmail.com';
+    $mail->Password = 'utggmrzihminerwi';
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail->Port = 465;
 
-        // Redirect to booking confirmation page
-        header("Location: bookingsconfirmation.php");
-        exit;
+    // Recipients
+    $mail->setFrom('exempt@gmail.com', 'CruiseMasters Dealership');
+    $mail->addAddress($userEmail);  // Corrected variable
+
+    // Content
+    $mail->isHTML(true);
+    $mail->Subject = 'Purchase Confirmation';
+    $mail->Body = 'Thank you for booking <strong>' . htmlspecialchars($vehiclename) . '</strong> on ' . $purchasedate . '. We will contact you with further details shortly.';
+
+    $mail->send();
+
+    // Redirect to confirmation page
+    header("Location: bookingsconfirmation.php");
+    exit;
+
+} catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+
+
+        
     } catch (PDOException $e) {
         die("Error processing booking: " . $e->getMessage());
     }
