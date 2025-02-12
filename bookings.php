@@ -85,8 +85,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Content
     $mail->isHTML(true);
-    $mail->Subject = 'Purchase Confirmation';
-    $mail->Body = 'Thank you for booking <strong>' . htmlspecialchars($vehiclename) . '</strong> on ' . $purchasedate . '. We will contact you with further details shortly.';
+    $mail->Subject = 'Booking Confirmation';
+    $mail->Body = 'Thank you for booking <strong>' . htmlspecialchars($vehiclename) . '</strong> from ' . $pickupdate .  '</strong> to ' . $returndate . '. We will contact you with further details shortly.';
+
 
     $mail->send();
 
