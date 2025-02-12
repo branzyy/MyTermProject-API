@@ -83,10 +83,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Content
                     $mail->isHTML(true);
                     $mail->Subject = 'PURCHASE CONFIRMATION';
-                    //$mail->Body = 'We have received a request to verify your account. Kindly input the verification code below:<br><br>' . $verif_code;
+                    $mail->Body = 'Thank you for purchasing <strong>' . htmlspecialchars($vehiclename) . '</strong> on ' . $purchasedate . '. We will contact you with further details shortly.';
 
                     $mail->send();
-                   
+                } catch (Exception $e) {
+                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
 
         // Redirect to confirmation page
         header("Location: purchaseconfirmation.php");
@@ -95,6 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } catch (PDOException $e) {
         die("Error processing purchase: " . $e->getMessage());
     }
+
 }
 ?>
 
