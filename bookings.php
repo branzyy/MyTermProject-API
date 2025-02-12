@@ -69,10 +69,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mail($userEmail, $subject, $message, $headers);
 
         // Redirect to booking confirmation page
-        header("Location: booking_confirmation.php");
+        header("Location: bookingsconfirmation.php");
         exit;
     } catch (PDOException $e) {
         die("Error processing booking: " . $e->getMessage());
     }
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Car</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <h2>Book <?php echo htmlspecialchars($car['name']); ?></h2>
+    <form method="post">
+        <label for="pickupdate">Pick-up Date:</label>
+        <input type="date" id="pickupdate" name="pickupdate" required>
+
+        <label for="returndate">Return Date:</label>
+        <input type="date" id="returndate" name="returndate" required>
+
+        <button type="submit">Confirm Booking</button>
+    </form>
+    <a href="models.php" class="btn">Back to Models</a>
+</div>
+</body>
+</html>

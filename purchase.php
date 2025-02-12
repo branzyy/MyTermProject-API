@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mail($userEmail, $subject, $message, $headers);
 
         // Redirect to confirmation page
-        header("Location: purchase_confirmation.php");
+        header("Location: purchaseconfirmation.php");
         exit;
 
     } catch (PDOException $e) {
