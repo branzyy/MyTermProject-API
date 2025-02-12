@@ -29,7 +29,7 @@
     <section class="welcome">
         <h1>Welcome Back to CruiseMasters</h1>
         <p>Explore the luxury cars available for rent or sale. Click below to see our models.</p>
-        <a href="models.html" class="cta-btn">Explore Our Models</a>
+        <a href="models.php" class="cta-btn">Explore Our Models</a>
     </section>
 
     <section class="services">
