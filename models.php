@@ -95,10 +95,12 @@ try {
             <h2>CruiseMasters</h2>
         </a>
         <ul class="links">
-            <li><a href="about.php">About Us</a></li>
-            <li><a href="contact.php">Contact Us</a></li>
+                <li><a href="home.php">Home</a></li>
+                <li><a href="models.php">Models</a></li>
+                <li><a href="about.php">About Us</a></li>
+                <li><a href="contact.php">Contact Us</a></li>
         </ul>
-        <button class="signup-btn"><a href="home.php">Home</a></button>
+        <button class="signup-btn"><a href="home.php">Back</a></button>
     </nav>
 </header>
 
