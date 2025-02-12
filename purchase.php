@@ -49,39 +49,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':purchasedate', $purchasedate);
         $stmt->execute();
 
+        // Get the last inserted purchase ID
+        $purchaseID = $conn->lastInsertId();
+
+        // Create a session for the purchase
+        $_SESSION['purchase'] = [
+            'purchaseID' => $purchaseID,
+            'vehiclename' => $vehiclename,
+            'purchasedate' => $purchasedate
+        ];
+
         // Send confirmation email
         $subject = "Purchase Confirmation - CruiseMasters";
         $message = "Dear Customer,\n\nYou have successfully purchased the $vehiclename on $purchasedate.\n\nThank you for choosing CruiseMasters!\n\nBest regards,\nCruiseMasters Team";
         $headers = "From: no-reply@cruisemasters.com";
         mail($userEmail, $subject, $message, $headers);
 
-        echo "<h2>Purchase Successful!</h2>";
-        echo "<p>A confirmation email has been sent to <strong>" . htmlspecialchars($userEmail) . "</strong>.</p>";
-        echo '<a href="models.php">Back to Models</a>';
+        // Redirect to confirmation page
+        header("Location: purchase_confirmation.php");
         exit;
+
     } catch (PDOException $e) {
         die("Error processing purchase: " . $e->getMessage());
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purchase <?php echo htmlspecialchars($car['name']); ?></title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-<div class="container">
-    <h2>Confirm Purchase</h2>
-    <p>Logged in as: <strong><?php echo htmlspecialchars($userEmail); ?></strong></p>
-    <p>Are you sure you want to purchase <strong><?php echo htmlspecialchars($car['name']); ?></strong>?</p>
-    <form method="POST" action="">
-        <button type="submit" class="btn purchase-btn">Confirm Purchase</button>
-    </form>
-    <a href="details.php?car_id=<?php echo urlencode($carId); ?>" class="btn cancel-btn">Cancel</a>
-</div>
-</body>
-</html>
