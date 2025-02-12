@@ -51,44 +51,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':returndate', $returndate);
         $stmt->execute();
 
+        // Get the last inserted booking ID
+        $bookingID = $conn->lastInsertId();
+
+        // Create a session for the booking
+        $_SESSION['booking'] = [
+            'bookingID' => $bookingID,
+            'vehiclename' => $vehiclename,
+            'pickupdate' => $pickupdate,
+            'returndate' => $returndate
+        ];
+
         // Send confirmation email
         $subject = "Booking Confirmation - CruiseMasters";
         $message = "Dear Customer,\n\nYou have successfully booked the $vehiclename from $pickupdate to $returndate.\n\nThank you for choosing CruiseMasters!\n\nBest regards,\nCruiseMasters Team";
         $headers = "From: no-reply@cruisemasters.com";
         mail($userEmail, $subject, $message, $headers);
 
-        echo "<h2>Booking Successful!</h2>";
-        echo "<p>A confirmation email has been sent to <strong>" . htmlspecialchars($userEmail) . "</strong>.</p>";
-        echo '<a href="models.php">Back to Models</a>';
+        // Redirect to booking confirmation page
+        header("Location: booking_confirmation.php");
         exit;
     } catch (PDOException $e) {
         die("Error processing booking: " . $e->getMessage());
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book <?php echo htmlspecialchars($car['name']); ?></title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-<div class="container">
-    <h2>Book <?php echo htmlspecialchars($car['name']); ?></h2>
-    <p>Logged in as: <strong><?php echo htmlspecialchars($userEmail); ?></strong></p>
-    <form method="POST" action="">
-        <label for="pickupdate">Pick-Up Date:</label>
-        <input type="date" name="pickupdate" required>
-
-        <label for="returndate">Return Date:</label>
-        <input type="date" name="returndate" required>
-
-        <button type="submit" class="btn book-btn">Confirm Booking</button>
-    </form>
-    <a href="details.php?car_id=<?php echo urlencode($carId); ?>" class="btn cancel-btn">Cancel</a>
-</div>
-</body>
-</html>
