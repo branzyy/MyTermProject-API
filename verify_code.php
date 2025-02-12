@@ -1,31 +1,32 @@
 <?php
+session_start();
 include 'connection/index.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $code = $_POST['verification_code'];
-    
+    $email = $_SESSION['email'];  // Get the email from session
 
     try {
-        // Prepare the SQL statement to fetch user data by email
-        $stmt = $conn->prepare("SELECT verification_code FROM users WHERE verification_code = :code");
+        // Fetch verification code for the logged-in user
+        $stmt = $conn->prepare("SELECT verification_code FROM users WHERE email = :email AND verification_code = :code");
+        $stmt->bindParam(':email', $email);
         $stmt->bindParam(':code', $code);
         $stmt->execute();
 
-        // Check if a user with the provided email exists
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        $correct_code=$user['verification_code'];
-        $ver_code=str_replace(',','', $correct_code);
-   if($ver_code){
-   header("location:home.php");
-   }
-   else{
-    echo "Invalid code";
-   }
-        
-    }catch (PDOException $e) {
-        echo $stmt. $e->getMessage();
-        //$error_message = "An error occurred. Please try again later.";
+
+        if ($user) {
+            // If the code matches, set session as verified
+            $_SESSION['verified'] = true;
+            header("Location: home.php");
+            exit();
+        } else {
+            echo "Invalid verification code. Please try again.";
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
 }
+
 
 ?>
 

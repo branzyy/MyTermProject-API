@@ -1,5 +1,6 @@
 <?php
 session_start(); // Start a session to handle user data
+
 include 'connection/index.php'; // Database connection
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
