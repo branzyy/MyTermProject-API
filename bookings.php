@@ -4,7 +4,7 @@ include 'connection/index.php'; // Database connection
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php"); // Redirect to login page if not logged in
+    header("Location: loginform.php"); // Redirect to login page if not logged in
     exit;
 }
 
