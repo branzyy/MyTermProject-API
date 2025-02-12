@@ -1,5 +1,13 @@
 <?php
-session_start();
+session_start();  // Start the session
+
+// Check if the user is logged in
+if (isset($_SESSION['email'])) {
+    echo "Logged in as: " . $_SESSION['email'];
+} else {
+    echo "Not logged in!";
+}
+
 include 'connection/index.php'; // Database connection
 
 // Check if 'car_id' parameter is set in the URL

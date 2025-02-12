@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Get the last inserted purchase ID
         $purchaseID = $conn->lastInsertId();
 
-        // Create a session for the purchase
+        // Store purchase details in session
         $_SESSION['purchase'] = [
             'purchaseID' => $purchaseID,
             'vehiclename' => $vehiclename,
@@ -74,3 +74,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Purchase</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <h2>Confirm Your Purchase</h2>
+    <p>Are you sure you want to purchase <strong><?php echo htmlspecialchars($car['name']); ?></strong>?</p>
+    <form method="POST" action="">
+        <button type="submit" class="btn">Confirm Purchase</button>
+    </form>
+    <a href="models.php" class="btn">Cancel</a>
+</div>
+</body>
+</html>

@@ -1,13 +1,12 @@
 <?php
 session_start();
 
-// Check if the purchase session exists
+// Check if the purchase session is set
 if (!isset($_SESSION['purchase'])) {
-    header("Location: models.php"); // Redirect if no purchase session exists
-    exit;
+    die("Purchase not found.");
 }
 
-// Get purchase details from session
+// Retrieve purchase details from the session
 $purchase = $_SESSION['purchase'];
 ?>
 

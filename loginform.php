@@ -1,6 +1,5 @@
 <?php
 session_start(); // Start a session to handle user data
-
 include 'connection/index.php'; // Database connection
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -28,6 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Store user session after successful login
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['email'] = $user['email'];
+
+        // Debug: Check if the session variables are set correctly
+        if (isset($_SESSION['email'])) {
+        echo "Email is set: " . $_SESSION['email'] . "<br>";
+           }
+
+        if (isset($_SESSION['user_id'])) {
+        echo "User ID is set: " . $_SESSION['user_id'] . "<br>";
+        }
 
                 // Generate and store the verification code
                 $verif_code = rand(100000, 999999);
