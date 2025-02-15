@@ -53,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':vehiclename', $vehiclename);
         $stmt->bindParam(':purchasedate', $purchasedate);
         $stmt->bindParam(':email',$userEmail);
+        
         $stmt->execute();
 
         // Get the last inserted purchase ID
@@ -62,7 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['purchase'] = [
             'purchaseID' => $purchaseID,
             'vehiclename' => $vehiclename,
-            'purchasedate' => $purchasedate
+            'purchasedate' => $purchasedate,
+            'email' => $userEmail,
         ];
 
     
