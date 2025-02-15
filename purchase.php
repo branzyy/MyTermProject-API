@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Insert purchase into the database
-        $stmt = $conn->prepare("INSERT INTO purchases (vehiclename, purchasedate) VALUES (:vehiclename, :purchasedate)");
+        $stmt = $conn->prepare("INSERT INTO purchases (vehiclename, purchasedate, email) VALUES (:vehiclename, :purchasedate, :email)");
         $stmt->bindParam(':vehiclename', $vehiclename);
         $stmt->bindParam(':purchasedate', $purchasedate);
         $stmt->bindParam(':email',$userEmail);

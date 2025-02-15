@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Insert booking into the database
-        $stmt = $conn->prepare("INSERT INTO bookings (vehiclename, pickupdate, returndate) VALUES (:vehiclename, :pickupdate, :returndate)");
+        $stmt = $conn->prepare("INSERT INTO bookings (vehiclename, pickupdate, returndate, email) VALUES (:vehiclename, :pickupdate, :returndate, :email)");
         $stmt->bindParam(':vehiclename', $vehiclename);
         $stmt->bindParam(':pickupdate', $pickupdate);
         $stmt->bindParam(':returndate', $returndate);
