@@ -52,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare("INSERT INTO purchases (vehiclename, purchasedate) VALUES (:vehiclename, :purchasedate)");
         $stmt->bindParam(':vehiclename', $vehiclename);
         $stmt->bindParam(':purchasedate', $purchasedate);
+        $stmt->bindParam(':email',$userEmail);
         $stmt->execute();
 
         // Get the last inserted purchase ID
