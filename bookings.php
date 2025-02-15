@@ -65,7 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'bookingID' => $bookingID,
             'vehiclename' => $vehiclename,
             'pickupdate' => $pickupdate,
-            'returndate' => $returndate
+            'returndate' => $returndate,
+            'email' => $userEmail
         ];
 
         // Send confirmation email
