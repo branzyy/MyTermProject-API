@@ -113,7 +113,26 @@ header {
 }
 
 /* Booking & Purchase Buttons */
-.purchase-btn {background: linear-gradient(to right, #0077cc, #19e8ff);}
+.action-buttons {
+    margin-top: 20px; /* Adjust this value to move the buttons lower */
+    display: flex;
+    gap: 10px; /* Adds spacing between the buttons */
+}
+
+.purchase-btn, .book-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: white;
+    background-color: blue;
+    border-radius: 5px;
+}
+
+.book-btn {
+    background-color: deepskyblue;
+}
+
+/*.purchase-btn {background: linear-gradient(to right, #0077cc, #19e8ff);}
 .book-btn {background: linear-gradient(to right, #0077cc, #19e8ff);}
 .cancel-btn { background-color: #dc3545; } /* Red */
 

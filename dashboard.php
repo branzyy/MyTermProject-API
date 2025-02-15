@@ -15,14 +15,15 @@
                 <h2>CruiseMasters</h2>
             </a>
             <ul class="links">
-                <span class="close-btn material-symbols-rounded">close</span>
+                
                 <li><a href="home.php">Home</a></li>
                 <li><a href="models.php">Models</a></li>
                 <li><a href="about.php">About Us</a></li>
                 <li><a href="contact.php">Contact Us</a></li>
             </ul>
             
-            <button class="signup-btn"><a href = "signup.php">Sign up</a></button>
+        <button class="btn signup-btn"><a href="signup.php">Sign Up</a></button>
+        <button class="hamburger-btn" onclick="toggleNavbar()">☰</button>
 
         </nav>
     </header>

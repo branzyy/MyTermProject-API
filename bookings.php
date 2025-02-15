@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="container">
+<div class="form-container">
     <h2>Book <?php echo htmlspecialchars($car['name']); ?></h2>
     <form method="post">
         <label for="pickupdate">Pick-up Date:</label>
