@@ -54,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':vehiclename', $vehiclename);
         $stmt->bindParam(':pickupdate', $pickupdate);
         $stmt->bindParam(':returndate', $returndate);
+        $stmt->bindParam(':email', $userEmail);
         $stmt->execute();
 
         // Get the last inserted booking ID
