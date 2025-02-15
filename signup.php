@@ -1,6 +1,8 @@
 <?php
-session_start(); // Start a session to handle user data
-include 'connection/index.php'; // Database connection
+session_start();
+include 'connection/index.php';
+
+$error_message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstname = $_POST['firstname'];
@@ -8,13 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-   // $error_message = '';
 
     if ($password !== $confirm_password) {
         $error_message = "Passwords do not match.";
     } else {
         try {
-            // Check if the email already exists in the database
             $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
             $stmt->bindParam(':email', $email);
             $stmt->execute();
@@ -23,27 +23,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($user) {
                 $error_message = "An account with that email already exists.";
             } else {
-                // Hash the password before storing it
                 $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-
-                // Insert new user into the database
-                $stmt = "INSERT INTO users (firstname, lastname, email, password) VALUES ('$firstname', '$lastname', '$email', '$hashed_password')";
-                $_SESSION['first']=$firstname;
-                $conn->exec($stmt);
-            
-               /* $stmt->bindParam(':firstname', $firstname);
+                $stmt = $conn->prepare("INSERT INTO users (firstname, lastname, email, password) VALUES (:firstname, :lastname, :email, :password)");
+                $stmt->bindParam(':firstname', $firstname);
                 $stmt->bindParam(':lastname', $lastname);
                 $stmt->bindParam(':email', $email);
-                $stmt->bindParam(':password', $hashed_password);*/
-                //$stmt->execute();
+                $stmt->bindParam(':password', $hashed_password);
+                $stmt->execute();
 
-                // Redirect to login page after successful registration
+                $_SESSION['first'] = $firstname;
                 header('Location: loginform.php');
                 exit();
             }
         } catch (PDOException $e) {
-        echo $stmt. $e->getMessage();
-            //$error_message = "An error occurred. Please try again later.";
+            error_log("Error: " . $e->getMessage());
+            $error_message = "Something went wrong. Please try again.";
         }
     }
 }
@@ -54,60 +48,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Sign Up - CruiseMasters</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<header>
-    <nav class="navbar">
-        <a href="#" class="logo">
-            <img src="images/logo2.png" alt="logo">
-            <h2>CruiseMasters</h2>
-        </a>
-        <ul class="links">
-            <li><a href="about.php">About Us</a></li>
-            <li><a href="contact.php">Contact Us</a></li>
-        </ul>
-        <button class="signup-btn"><a href="dashboard.php">Home</a></button>
-    </nav>
-</header>
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">
+                <img src="images/logo2.png" alt="logo">
+                <h2>CruiseMasters</h2>
+            </a>
+            <ul class="links">
+                <li><a href="home.php">Home</a></li>
+                <li><a href="models.php">Models</a></li>
+                <li><a href="about.php">About Us</a></li>
+                <li><a href="contact.php">Contact Us</a></li>
+            </ul>
+            <button class="btn signup-btn"><a href="loginform.php">Log In</a></button>
+            <button class="hamburger-btn" onclick="toggleNavbar()">☰</button>
+        </nav>
+    </header>
 
-<div class="form-box">
-    <div class="form-content signup">
-        <h2>Sign Up</h2>
-        <?php if (!empty($error_message)): ?>
-            <p class="error-message"> <?php echo $error_message; ?> </p>
-        <?php endif; ?>
-        <form method="POST" id="signup-form">
-    <div class="input-field">
-        <input type="text" id="firstname" name="firstname" placeholder=" " required />
-        <label for="firstname">First Name</label>
-    </div>
-    <div class="input-field">
-        <input type="text" id="lastname" name="lastname" placeholder=" " required />
-        <label for="lastname">Last Name</label>
-    </div>
-    <div class="input-field">
-        <input type="email" id="email" name="email" placeholder=" " required />
-        <label for="email">Email</label>
-    </div>
-    <div class="input-field">
-        <input type="password" id="password" name="password" placeholder=" " required />
-        <label for="password">Password</label>
-    </div>
-    <div class="input-field">
-        <input type="password" id="confirm_password" name="confirm_password" placeholder=" " required />
-        <label for="confirm_password">Confirm Password</label>
-    </div>
-    <button type="submit">Sign Up</button>
-    <p class="bottom-link"><a href="loginform.php">Already have an account? Log in</a></p>
-</form>
-    </div>
-</div>
+    <main>
+        <section class="signup-section">
+            <h1>Sign Up</h1>
+            <p>Join us today by creating an account. Fill out the form below to get started.</p>
 
-<footer>
-    <p>&copy; 2024 CruiseMasters. All Rights Reserved.</p>
-</footer>
+            <?php if (!empty($error_message)): ?>
+                <div class="error-message"><?php echo $error_message; ?></div>
+            <?php endif; ?>
+
+            <form method="POST" class="form-container">
+                <div class="form-group">
+                    <label for="firstname">First Name:</label>
+                    <input type="text" id="firstname" name="firstname" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname">Last Name:</label>
+                    <input type="text" id="lastname" name="lastname" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password:</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </div>
+
+                <button type="submit" class="btn signup-btn">Sign Up</button>
+            </form>
+
+            <p class="bottom-link"><a href="loginform.php">Already have an account? Log in</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 CruiseMasters. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleNavbar() {
+            let navLinks = document.querySelector(".links");
+            navLinks.classList.toggle("show");
+        }
+    </script>
 
 </body>
 </html>

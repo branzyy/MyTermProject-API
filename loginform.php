@@ -1,43 +1,33 @@
 <?php
-session_start(); // Start a session to handle user data
+session_start(); // Start session for user authentication
 include 'connection/index.php'; // Database connection
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Load Composer's autoloader
+// Load PHPMailer
 require 'PHPMailer/vendor/autoload.php';
+
+$error_message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $error_message = '';
 
     try {
-        // Prepare the SQL statement to fetch user data by email
+        // Prepare statement to fetch user details
         $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
-
-        // Check if a user with the provided email exists
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            // Verify the entered password with the hashed password in the database
+            // Verify password
             if (password_verify($password, $user['password'])) {
-                // Store user session after successful login
+                // Store session variables
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['email'] = $user['email'];
 
-        // Debug: Check if the session variables are set correctly
-        if (isset($_SESSION['email'])) {
-        echo "Email is set: " . $_SESSION['email'] . "<br>";
-           }
-
-        if (isset($_SESSION['user_id'])) {
-        echo "User ID is set: " . $_SESSION['user_id'] . "<br>";
-        }
-
-                // Generate and store the verification code
+                // Generate verification code
                 $verif_code = rand(100000, 999999);
                 $sql = $conn->prepare("UPDATE users SET verification_code = :verif_code WHERE email = :email");
                 $sql->bindParam(':verif_code', $verif_code);
@@ -47,41 +37,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Send verification email
                 $mail = new PHPMailer(true);
                 try {
-                    // Server settings
                     $mail->isSMTP();
                     $mail->Host = 'smtp.gmail.com';
                     $mail->SMTPAuth = true;
                     $mail->Username = 'brandonnthiwa@gmail.com';
-                    $mail->Password = 'utggmrzihminerwi';
+                    $mail->Password = 'utggmrzihminerwi'; 
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                     $mail->Port = 465;
 
-                    // Recipients
-                    $mail->setFrom('exempt@gmail.com', 'PASSWORD RESET');
-                    $mail->addAddress($email);  // Removed $firstname to avoid undefined variable
+                    $mail->setFrom('exempt@gmail.com', 'CruiseMasters Verification');
+                    $mail->addAddress($email);
 
-                    // Content
                     $mail->isHTML(true);
-                    $mail->Subject = 'ACCOUNT VERIFICATION';
-                    $mail->Body = 'We have received a request to verify your account. Kindly input the verification code below:<br><br>' . $verif_code;
+                    $mail->Subject = 'Account Verification Code';
+                    $mail->Body = 'Your verification code is: <b>' . $verif_code . '</b>';
 
                     $mail->send();
-                    // Redirect to verification page
                     header("Location: verify_code.php");
                     exit();
                 } catch (Exception $e) {
-                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                    $error_message = "Email could not be sent. Error: " . $mail->ErrorInfo;
                 }
             } else {
-                // Password is incorrect
                 $error_message = "Invalid password. Please try again.";
             }
         } else {
-            // No user found with the provided email
             $error_message = "No account found with that email.";
         }
     } catch (PDOException $e) {
         error_log("Error: " . $e->getMessage());
+        $error_message = "Something went wrong. Please try again.";
     }
 }
 ?>
@@ -91,49 +76,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login | CruiseMasters</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header>
     <nav class="navbar">
         <a href="#" class="logo">
-            <img src="images/logo2.png" alt="logo">
+            <img src="images/logo2.png" alt="CruiseMasters Logo">
             <h2>CruiseMasters</h2>
         </a>
         <ul class="links">
             <li><a href="about.php">About Us</a></li>
             <li><a href="contact.php">Contact Us</a></li>
         </ul>
-        <button class="signup-btn"><a href="dashboard.php">Home</a></button>
+        <button class="btn signup-btn"><a href="dashboard.php">Home</a></button>
+        <button class="hamburger-btn" onclick="toggleNavbar()">☰</button>
     </nav>
 </header>
 
-<div class="form-box">
-    <div class="form-content login">
-        <h2>Login</h2>
+<main>
+    <section class="login-section">
+        <h1>Login</h1>
+        <p>Welcome back! Enter your credentials to access your account.</p>
+
         <?php if (!empty($error_message)): ?>
-            <p class="error-message"><?php echo $error_message; ?></p>
+            <div class="error-message"><?php echo $error_message; ?></div>
         <?php endif; ?>
-        <form method="POST">
-            <div class="input-field">
-                <input type="email" id="email" name="email" placeholder=" " required />
-                <label for="email">Email</label>
+
+        <form method="POST" class="form-container">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
             </div>
-            <div class="input-field">
-                <input type="password" id="password" name="password" placeholder=" " required />
-                <label for="password">Password</label>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required>
+                    <span class="toggle-password" onclick="togglePassword()">👁️</span>
+                </div>
             </div>
-            <button type="submit">Login</button>
-            <p><a href="forgotpassword.php">Forgot Password?</a></p>
-            <p class="bottom-link"><a href="signup.php">Don't have an account? Sign up</a></p>
+
+            <button type="submit" class="btn login-btn">Login</button>
         </form>
-    </div>
-</div>
+
+        <p><a href="forgotpassword.php">Forgot Password?</a></p>
+        <p class="bottom-link"><a href="signup.php">Don't have an account? Sign up</a></p>
+    </section>
+</main>
 
 <footer>
     <p>&copy; 2024 CruiseMasters. All Rights Reserved.</p>
 </footer>
+
+<script>
+    function togglePassword() {
+        let passwordField = document.getElementById("password");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+        } else {
+            passwordField.type = "password";
+        }
+    }
+
+    function toggleNavbar() {
+        let navLinks = document.querySelector(".links");
+        navLinks.classList.toggle("show");
+    }
+</script>
 
 </body>
 </html>
