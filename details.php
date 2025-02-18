@@ -52,7 +52,8 @@ if (isset($_GET['car_id'])) {
             <li><a href="about.php">About Us</a></li>
             <li><a href="contact.php">Contact Us</a></li>
         </ul>
-        <button class="signup-btn"><a href="models.php">Back to Models</a></button>
+        <button class="btn signup-btn"><a href="models.php">Back To Models</a></button>
+        <button class="hamburger-btn" onclick="toggleNavbar()">☰</button>
     </nav>
 </header>
 

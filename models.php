@@ -100,7 +100,8 @@ try {
                 <li><a href="about.php">About Us</a></li>
                 <li><a href="contact.php">Contact Us</a></li>
         </ul>
-        <button class="signup-btn"><a href="home.php">Back</a></button>
+        <button class="btn signup-btn"><a href="Home.php">Back</a></button>
+        <button class="hamburger-btn" onclick="toggleNavbar()">☰</button>
     </nav>
 </header>
 

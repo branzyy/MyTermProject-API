@@ -21,7 +21,8 @@
                 <li><a href="contact.php">Contact Us</a></li>
             </ul>
         <form action="logout.php" method="POST" style="display: inline;">
-            <button class="logout-btn">Log Out</button>
+            <button class="btn signup-btn"><a href="dashboard.php">Log Out</a></button>
+            <button class="hamburger-btn" onclick="toggleNavbar()">☰</button>
         </form>
         </nav>
     </header>

@@ -19,7 +19,7 @@
                 <h2>CruiseMasters</h2>
             </a>
             <ul class="links">
-                <span class="close-btn material-symbols-rounded">close</span>
+                
                 <li><a href="home.php">Home</a></li>
                 <li><a href="models.php">Models</a></li>
                 <li><a href="about.php">About us</a></li>

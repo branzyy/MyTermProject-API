@@ -15,11 +15,12 @@
                 <h2>CruiseMasters</h2>
             </a>
             <ul class="links">
-                <span class="close-btn material-symbols-rounded">close</span>
+                
                 <li><a href="home.php">Home</a></li>
                 <li><a href="models.php">Models</a></li>
                 <li><a href="about.php">About us</a></li>
                 <li><a href="contact.php">Contact us</a></li>
+                
             </ul>
             <form action="logout.php" method="POST" style="display: inline;">
             <button class="logout-btn">Log Out</button>

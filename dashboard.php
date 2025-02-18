@@ -17,7 +17,7 @@
             <ul class="links">
                 
                 <li><a href="home.php">Home</a></li>
-                <li><a href="models.php">Models</a></li>
+                
                 <li><a href="about.php">About Us</a></li>
                 <li><a href="contact.php">Contact Us</a></li>
             </ul>
@@ -31,7 +31,7 @@
     <section class="hero">
         <h1>Welcome to CruiseMasters</h1>
         <p>Your one-stop destination for luxury car rentals and sales</p>
-        <button class="cta-btn">Explore Our Services</button>
+        
     </section>
 
     <section class="intro">
