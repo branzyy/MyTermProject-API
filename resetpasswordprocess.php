@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($stmt->execute()) {
         echo "Password has been reset successfully.";
-        header("Location: loginform.php");
+        header("Location: forms/loginform.php");
     } else {
         echo "Failed to reset password. Try again.";
     }

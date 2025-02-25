@@ -22,12 +22,11 @@
                 
             </ul>
             
-        <button class="btn signup-btn"><a href="signup.php">Sign Up</a></button>
+        <button class="btn signup-btn"><a href="forms/signup.php">Sign Up</a></button>
         <button class="hamburger-btn" onclick="toggleNavbar()">☰</button>
 
-        <button class="btn signup-btn"><a href="admin.php">Admin</a></button>
-        <button class="hamburger-btn" onclick="toggleNavbar()">☰</button>
-
+        <button class="btn signup-btn"><a href="forms/loginadmin.php">Admin</a></button>
+        
 
         </nav>
     </header>

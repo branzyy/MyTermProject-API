@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'connection/index.php';
+include '../connection/index.php';
 
 $error_message = '';
 
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - CruiseMasters</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <header>
@@ -59,13 +59,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h2>CruiseMasters</h2>
             </a>
             <ul class="links">
-                <li><a href="home.php">Home</a></li>
-                <li><a href="models.php">Models</a></li>
-                <li><a href="about.php">About Us</a></li>
-                <li><a href="contact.php">Contact Us</a></li>
+                <li><a href="../home.php">Home</a></li>
+                <li><a href="../models.php">Models</a></li>
+                <li><a href="../about.php">About Us</a></li>
+                <li><a href="../contact.php">Contact Us</a></li>
             </ul>
             <button class="btn signup-btn"><a href="loginform.php">Log In</a></button>
-            <button class="hamburger-btn" onclick="toggleNavbar()">☰</button>
+            
         </nav>
     </header>
 

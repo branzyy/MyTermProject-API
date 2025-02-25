@@ -19,6 +19,7 @@
                 <li><a href="models.php">Models</a></li>
                 <li><a href="about.php">About Us</a></li>
                 <li><a href="contact.php">Contact Us</a></li>
+                <li><a href="profile.php">Profile</a></li>
             </ul>
         <form action="logout.php" method="POST" style="display: inline;">
             <button class="btn signup-btn"><a href="dashboard.php">Log Out</a></button>

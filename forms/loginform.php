@@ -1,11 +1,11 @@
 <?php
 session_start(); // Start session for user authentication
-include 'connection/index.php'; // Database connection
+include '../connection/index.php'; // Database connection
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 // Load PHPMailer
-require 'PHPMailer/vendor/autoload.php';
+require '../PHPMailer/vendor/autoload.php';
 
 $error_message = '';
 
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mail->Body = 'Your verification code is: <b>' . $verif_code . '</b>';
 
                     $mail->send();
-                    header("Location: verify_code.php");
+                    header("Location: ../verify_code.php");
                     exit();
                 } catch (Exception $e) {
                     $error_message = "Email could not be sent. Error: " . $mail->ErrorInfo;
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | CruiseMasters</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 <header>
@@ -87,10 +87,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2>CruiseMasters</h2>
         </a>
         <ul class="links">
-            <li><a href="about.php">About Us</a></li>
-            <li><a href="contact.php">Contact Us</a></li>
+            <li><a href="../about.php">About Us</a></li>
+            <li><a href="../contact.php">Contact Us</a></li>
         </ul>
-        <button class="btn signup-btn"><a href="dashboard.php">Home</a></button>
+        <button class="btn signup-btn"><a href="../dashboard.php">Home</a></button>
         <button class="hamburger-btn" onclick="toggleNavbar()">☰</button>
     </nav>
 </header>
@@ -121,8 +121,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn login-btn">Login</button>
         </form>
 
-        <p><a href="forgotpassword.php">Forgot Password?</a></p>
+        <p><a href="../forgotpassword.php">Forgot Password?</a></p>
         <p class="bottom-link"><a href="signup.php">Don't have an account? Sign up</a></p>
+        <p class="bottom-link"><a href="loginadmin.php">Login as Admin</a></p>
     </section>
 </main>
 

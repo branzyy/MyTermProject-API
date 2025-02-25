@@ -45,6 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <img src="images/logo2.png" alt="logo">
                 <h2>CruiseMasters</h2>
             </a>
+            <ul class="links">
+                
+                
+                <li><a href="forms/loginform.php">Back</a></li>
+            </ul>
             
         </nav>
     </header>
